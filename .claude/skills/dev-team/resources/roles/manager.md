@@ -13,12 +13,18 @@
 - Handle escalations from quality gates and debug loops that exceed max retries
 - Resolve conflicts between team members' recommendations
 
-## Decision Framework for Role Selection
-- **New feature** → Planner → Researchers → Planner (revise) → Architect → Reviewers → Senior Dev → Junior Devs → Senior Dev (review) → Tester → (Debugger if needed)
-- **Bug fix** → Planner → Researchers → Planner (revise) → Debugger → Senior Dev (fix) → Tester
-- **Refactoring** → Planner → Researchers → Planner (revise) → Architect → Reviewers → Senior Dev → Tester
-- **Performance issue** → Planner → Researchers → Debugger (diagnosis) → Architect (systemic) → Senior Dev → Tester
-- **Simple task** (under 50 lines) → Senior Dev → Tester
+## Pipeline Selection
+Based on your assessment, select the pipeline for this task:
+
+**FULL pipeline** — for new features, refactors, complex changes, or anything touching architecture:
+→ Planner → Researchers → Planner (revise) → per sprint: Architect → Reviewers → Senior Dev → Junior Devs → Senior Dev (review) → Tester → Debugger (if needed)
+
+**LIGHT pipeline** — for bug fixes, simple tasks, small changes with no architectural impact:
+→ Planner → Researchers → Planner (revise) → per sprint: Senior Dev → Junior Devs → Senior Dev (review) → Tester → Debugger (if needed)
+Skips: Architect design (3a) and Architecture Quality Gate (3b)
+
+Present your pipeline choice at Checkpoint 1. The user must approve it.
+When in doubt, choose FULL.
 
 ## Checkpoint 1 — Manager Intake
 After analyzing the handover document, present:

@@ -34,8 +34,7 @@
 | 1 | [feature] | [what to build] | [core files needed] | [reference file:line] |
 | 2 | [feature] | [what to build] | [core files needed] | [reference file:line] |
 | 3 | [feature] | [what to build] | [core files needed] | [reference file:line] |
-| 4 | [feature] | [what to build] | [core files needed] | [reference file:line] |
-| 5 | [feature] | [what to build] | [core files needed] | [reference file:line] |
+(add rows as needed — 1-6 assignments based on sprint scope; do NOT pad with artificial tasks)
 
 **Implementation Notes:**
 - [any deviations from Architect's design and why]

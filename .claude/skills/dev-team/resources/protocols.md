@@ -107,8 +107,8 @@ Manager presents at each sprint boundary:
   Options: approve | redo this sprint | stop | approve all remaining sprints
 ```
 
-## User Checkpoint Format
-When pausing for user approval:
+## User Checkpoint Format — Checkpoints 1 & 2
+When pausing for user approval at Phase 1 or Phase 2:
 
 ```
 ╔══════════════════════════════════════════════════╗
@@ -121,7 +121,25 @@ When pausing for user approval:
 ║    • "approve" — continue to next phase          ║
 ║    • "modify" — provide changes you want         ║
 ║    • "reject" — start over with feedback         ║
-║    • "approve all" — skip future checkpoints     ║
+║                                                  ║
+╚══════════════════════════════════════════════════╝
+```
+
+## User Checkpoint Format — Checkpoint 3 (Sprint)
+When pausing after a sprint completes:
+
+```
+╔══════════════════════════════════════════════════╗
+║  🔒 CHECKPOINT 3: SPRINT [N] REVIEW             ║
+╠══════════════════════════════════════════════════╣
+║                                                  ║
+║  [sprint completion content]                     ║
+║                                                  ║
+║  → Please respond with:                          ║
+║    • "approve" — proceed to next sprint          ║
+║    • "redo" — re-execute this sprint w/ feedback ║
+║    • "stop" — deliver what's completed so far    ║
+║    • "approve all remaining" — skip future CP3s  ║
 ║                                                  ║
 ╚══════════════════════════════════════════════════╝
 ```
@@ -143,3 +161,34 @@ Summary of attempts:
 - Attempt 3: [brief outcome]
 Recommendation: [reassess approach / break into smaller tasks / seek user input]
 ```
+
+## Resume Prompt Format
+When a previous session state file (`.dev-team/session-state.md`) is detected on startup:
+
+```
+╔══════════════════════════════════════════════════╗
+║  📋 PREVIOUS SESSION DETECTED                    ║
+╠══════════════════════════════════════════════════╣
+║                                                  ║
+║  Task: [task summary from state]                 ║
+║  Last Position: Phase [N], Sub-phase [X]         ║
+║  Sprint: [current]/[total]                       ║
+║  Completed: [list of completed sprints]          ║
+║  Last Updated: [timestamp]                       ║
+║                                                  ║
+║  → Options:                                      ║
+║    • "resume" — pick up where we left off        ║
+║    • "restart" — start fresh (deletes state)     ║
+║    • "status" — show detailed progress           ║
+║                                                  ║
+╚══════════════════════════════════════════════════╝
+```
+
+## State Update Protocol
+After each **State:** marker in the execution protocol:
+1. Read `.dev-team/session-state.md`
+2. Update the relevant status fields and `Current Position` block
+3. Update the `Last Updated` timestamp
+4. Write the complete file back
+
+Keep updates surgical — only change fields relevant to the completed step.

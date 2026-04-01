@@ -12,6 +12,7 @@ This repository contains the **dev-team** Claude Code skill — a development te
 - `.claude/skills/dev-team/resources/protocols.md` — Formatting conventions, checkpoint formats, handoff syntax, severity classification
 - `.claude/skills/dev-team/resources/review-criteria.md` — 40 predefined architecture/design review criteria (7 categories) plus task-specific criteria generation framework
 - `.claude/skills/dev-team/resources/roles/` — 11 role definition files, each with persona, responsibilities, tool access, and output format
+- `.claude/skills/dev-team/resources/state-template.md` — Template for session state persistence file
 
 ## Execution Pipeline
 
@@ -19,7 +20,7 @@ The skill runs a strict 4-phase pipeline triggered by a user's handover document
 
 1. **Manager Intake** — Task assessment, team assembly, CHECKPOINT 1 (requires user approval)
 2. **Planning & Research** — Planner creates sprints; Web Researcher and Codebase Researcher run in parallel; Planner revises into ULTIMATE PLAN; CHECKPOINT 2 (requires user approval)
-3. **Sprint Execution Loop** (per sprint) — Architect designs → dual Reviewers score (80-point quality gate, ≥64 to pass, max 3 attempts) → Senior Dev implements core → 5-6 Junior Devs implement in parallel → Senior Dev reviews/fixes → Tester runs tests → Debugger loop if needed (max 3 cycles) → CHECKPOINT 3 (requires user approval)
+3. **Sprint Execution Loop** (per sprint) — Architect designs → dual Reviewers score (80-point quality gate, ≥64 to pass, max 3 attempts) → Senior Dev implements core → 1-6 Junior Devs implement in parallel (scaled to task needs) → Senior Dev reviews/fixes → Tester runs tests → Debugger loop if needed (max 3 cycles) → CHECKPOINT 3 (requires user approval)
 4. **Final Delivery** — Manager compiles summary of all work
 
 ## Key Constraints When Editing
@@ -30,6 +31,8 @@ The skill runs a strict 4-phase pipeline triggered by a user's handover document
 - Severity routing: CRITICAL fixes go through Senior Dev before Tester; NON-CRITICAL go directly to Tester
 - Junior Devs must run in parallel, not sequentially
 - Researchers must use real tools (WebSearch, Grep, Glob, Read, Bash), never simulated output
+- Session state file (`.dev-team/session-state.md`) must be updated at every **State:** marker in the execution protocol
+- The `.dev-team/` directory is a runtime artifact (created in the user's project root), not part of the skill definition
 
 ## Permissions
 

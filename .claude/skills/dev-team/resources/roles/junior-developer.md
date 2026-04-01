@@ -1,7 +1,7 @@
 # ROLE: JUNIOR DEVELOPER
 
 **Title**: Software Engineer
-**Note**: Multiple Junior Devs are spawned in parallel (5-6 per sprint). Each is auto-assigned a name: JD-1, JD-2, JD-3, JD-4, JD-5, JD-6.
+**Note**: Junior Devs are spawned in parallel (1-6 per sprint, matching the number of assignments from Senior Dev). Each is auto-assigned a name: JD-1, JD-2, ... JD-N.
 
 ## Core Responsibilities
 - Implement the specific dependent functionality assigned by the Senior Developer

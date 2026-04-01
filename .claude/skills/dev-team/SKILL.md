@@ -25,7 +25,7 @@ Load and internalize the following role definitions and shared resources:
 - @resources/roles/system-architect-reviewer.md — Raj Mehta, System Architecture Reviewer
 - @resources/roles/system-design-reviewer.md — Li Wei, System Design Reviewer
 - @resources/roles/senior-developer.md — Marcus Johnson, Senior Software Engineer
-- @resources/roles/junior-developer.md — Junior Developer template (spawns 5-6 per sprint)
+- @resources/roles/junior-developer.md — Junior Developer template (spawns 1-6 per sprint based on task needs)
 - @resources/roles/tester.md — Jordan Kim, QA Engineer
 - @resources/roles/debugger.md — Casey Morgan, Debug Specialist
 
@@ -37,7 +37,7 @@ Only **spawned agents** (via the Agent tool) can have their model overridden. Ma
 |---|---|---|
 | System Architect Reviewer | `opus` | Spawned agent — deep architectural reasoning |
 | System Design Reviewer | `opus` | Spawned agent — deep design evaluation |
-| Junior Developers (JD-1 to JD-6) | `haiku` | Spawned agents — lightweight dependent tasks |
+| Junior Developers (JD-1 to JD-N) | `haiku` | Spawned agents — 1-6 per sprint based on task needs |
 | Web Researcher | User's session model | Spawned agent |
 | Codebase Researcher | User's session model | Spawned agent |
 | Manager, Planner, Architect, Senior Dev, Tester, Debugger | User's session model | Main thread — cannot override |
@@ -47,6 +47,30 @@ Only **spawned agents** (via the Agent tool) can have their model overridden. Ma
 ## INPUT
 
 The user provides a **handover document** describing what they want built. This document is the primary source of truth throughout the entire pipeline. All agents reference it. The user is the ultimate authority.
+
+## STATE PERSISTENCE & SESSION RESUMPTION
+
+### On Startup: Resume Check
+Before executing Phase 1, check for an existing session state:
+1. Use Glob to check if `.dev-team/session-state.md` exists in the project root
+2. If it exists, Read it and present the RESUME PROMPT (see protocols.md) to the user
+3. If user says "resume" → skip to the recorded Current Position (skip all COMPLETED phases/sub-phases; re-execute any IN_PROGRESS sub-phase from its start; re-read files listed in Files Modified for context)
+4. If user says "restart" → delete the state file and `.dev-team/` directory, proceed normally
+5. If user says "status" → display full state file, then ask resume/restart
+6. If no state file exists → proceed normally
+
+### State File
+Location: `.dev-team/session-state.md` (project root, NOT inside `.claude/skills/`).
+Template: `@resources/state-template.md`
+Created at the start of Phase 1. Updated at every phase/sub-phase boundary as indicated by **State:** markers below.
+
+### Resume Rules
+- COMPLETED phases/sub-phases are skipped entirely — do not re-execute
+- IN_PROGRESS sub-phases are re-executed from their start (sub-phases are atomic for resumption)
+- On resume, re-read all files listed in `Files Modified` to rebuild working context
+- On resume, read `Key Artifacts` for architectural context
+- Never skip a checkpoint that hasn't been APPROVED
+- Preserve retry counters (quality gate attempts, debug cycles) across sessions
 
 ## EXECUTION PROTOCOL
 
@@ -59,14 +83,19 @@ Follow this pipeline exactly. Do NOT skip phases. Do NOT combine roles. Each rol
 Adopt the **Manager** role (Alex Rivera).
 
 1. Read the user's handover document thoroughly
+
+**State:** Create `.dev-team/session-state.md` from @resources/state-template.md. Set Phase = 1, Sub-phase = none, Status = IN_PROGRESS.
+
 2. Summarize your understanding of the task
 3. Assess task type (new feature / bug fix / refactor / investigation / design)
 4. Assess complexity (low / medium / high / critical)
 5. List which team members you are assembling and why
 6. Identify any ambiguities or risks in the handover document
+7. Select pipeline: **FULL** (new feature / refactor / complex) or **LIGHT** (bug fix / simple task). Present your choice and reasoning at Checkpoint 1.
 
 **Then present CHECKPOINT 1** using the checkpoint format from protocols.md.
 **STOP and wait for user approval before proceeding.**
+**State:** Update session state — Phase 1 = COMPLETED, Checkpoint 1 = APPROVED, record task type and complexity.
 
 If the user corrects your understanding, revise and re-present Checkpoint 1.
 
@@ -82,6 +111,8 @@ Adopt the **Planner** role (Dana Park).
 - If the handover doc has no sprints: CREATE them from scratch
 - Produce an initial sprint/milestone breakdown
 
+**State:** Update session state — 2a = COMPLETED.
+
 #### Step 2b: Parallel Research
 Run BOTH researchers in parallel:
 
@@ -96,6 +127,8 @@ Run BOTH researchers in parallel:
 - Identify existing patterns, utilities, and conventions to reuse
 - Report structured findings
 
+**State:** Update session state — 2b = COMPLETED.
+
 #### Step 2c: Plan Revision
 Return to **Planner** role (Dana Park).
 
@@ -106,6 +139,7 @@ Return to **Planner** role (Dana Park).
 
 **Then present CHECKPOINT 2** using the checkpoint format from protocols.md.
 **STOP and wait for user approval before proceeding.**
+**State:** Update session state — Phase 2 = COMPLETED, Checkpoint 2 = APPROVED, record sprint names and ultimate plan summary.
 
 If the user modifies the plan, incorporate changes and re-present Checkpoint 2.
 
@@ -113,13 +147,16 @@ If the user modifies the plan, incorporate changes and re-present Checkpoint 2.
 
 ### PHASE 3: SPRINT EXECUTION LOOP
 
-For EACH sprint in the ultimate plan, execute the following sub-phases:
+For EACH sprint in the ultimate plan, execute the following sub-phases.
+**If LIGHT pipeline was approved at Checkpoint 1, skip steps 3a and 3b.**
 
 #### 3a: Architecture Design
 Adopt the **Architect** role (Sofia Chen).
 - Design the system architecture for this sprint
 - Incorporate research findings and existing codebase patterns
 - Produce the design in the Architect's output format
+
+**State:** If this is the first sub-phase of a new sprint, append a new sprint section to the state file. Update session state — 3a = COMPLETED for current sprint.
 
 #### 3b: Architecture Quality Gate (PARALLEL)
 Run BOTH reviewers in parallel using the Agent tool with `model: "opus"`:
@@ -140,17 +177,23 @@ Run BOTH reviewers in parallel using the Agent tool with `model: "opus"`:
 - Architect redesigns and BOTH reviewers re-evaluate (all 80 criteria fresh)
 - **Maximum 3 attempts**. After 3 failures: escalate to Manager, who presents the situation to the user
 
+**State:** Update session state — 3b = COMPLETED, record scores and attempt count.
+
 #### 3c: Core Implementation
 Adopt the **Senior Developer** role (Marcus Johnson).
 - Implement all core functionalities for this sprint
-- Define 5-6 dependent functionality assignments for Junior Devs
+- Define dependent functionality assignments for Junior Devs (1-6 based on sprint scope — only create as many as the work genuinely requires; do NOT pad with artificial tasks)
 - Produce complete, runnable code (not pseudocode)
 
+**State:** Update session state — 3c = COMPLETED.
+
 #### 3d: Parallel Junior Dev Implementation
-Spawn **5-6 Junior Developer** agents (JD-1 through JD-6) using the Agent tool with `model: "haiku"`.
+Spawn **one Junior Developer agent per assignment** from the Senior Dev's table (JD-1 through JD-N, where N = number of assignments, max 6) using the Agent tool with `model: "haiku"`.
 - Each implements their assigned dependent functionality IN PARALLEL
 - Each follows patterns set by Architect and Senior Dev exactly
 - Each produces complete code with their JD identifier
+
+**State:** Update session state — 3d = COMPLETED.
 
 #### 3e: Senior Dev Code Review
 Return to **Senior Developer** role (Marcus Johnson).
@@ -158,6 +201,8 @@ Return to **Senior Developer** role (Marcus Johnson).
 - Fix any issues DIRECTLY (do not send back to Junior Devs)
 - Verify integration between core and dependent functionalities
 - Produce the consolidated, reviewed codebase
+
+**State:** Update session state — 3e = COMPLETED, update Files Modified.
 
 #### 3f: Testing
 Adopt the **Tester** role (Jordan Kim).
@@ -168,6 +213,8 @@ Adopt the **Tester** role (Jordan Kim).
 
 **If all tests pass:** proceed to Checkpoint 3.
 **If tests fail:** proceed to Debugging Loop (3g).
+
+**State:** Update session state — 3f = COMPLETED, record test pass/fail counts.
 
 #### 3g: Debugging Loop (if needed)
 Adopt the **Debugger** role (Casey Morgan).
@@ -190,6 +237,8 @@ Return to **Tester** role (Jordan Kim):
 - After 3 cycles with remaining failures: **ESCALATE to Manager**
   - Manager presents the situation to the user with options
 
+**State:** Update session state — 3g = COMPLETED, record cycle count.
+
 #### 3h: Sprint Checkpoint
 Return to **Manager** role (Alex Rivera).
 
@@ -201,6 +250,7 @@ Return to **Manager** role (Alex Rivera).
 - What the next sprint covers
 
 **STOP and wait for user approval.**
+**State:** Update session state — current sprint = COMPLETED, Checkpoint 3 = APPROVED, record user decision. If user chose "approve all remaining", set Auto-Approve = YES.
 
 User options:
 - **"approve"** → proceed to next sprint
@@ -225,6 +275,7 @@ After ALL sprints complete, adopt the **Manager** role (Alex Rivera) one last ti
    - Any known limitations or future considerations
 
 **Deliver the final result to the user.**
+**State:** Update session state — Phase 4 = COMPLETED, Status = COMPLETED.
 
 ---
 
@@ -239,4 +290,5 @@ After ALL sprints complete, adopt the **Manager** role (Alex Rivera) one last ti
 7. **Quality gates are non-negotiable.** Never bypass the 80% threshold.
 8. **Track retry counts.** Escalate after max retries — do not loop indefinitely.
 9. **Use the exact formatting** from protocols.md for all headers, handoffs, reports, and checkpoints.
-10. **Junior Devs run in parallel.** Do not execute them sequentially.
+10. **Junior Devs run in parallel.** Spawn one per assignment (1-6). Do not execute them sequentially. Do not pad with artificial assignments.
+11. **Persist session state.** Update `.dev-team/session-state.md` at every **State:** marker. On startup, check for existing state and offer resumption.

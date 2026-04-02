@@ -192,3 +192,22 @@ After each **State:** marker in the execution protocol:
 4. Write the complete file back
 
 Keep updates surgical — only change fields relevant to the completed step.
+
+## Diagram Convention (Mermaid)
+When a role's output format calls for diagrams, use fenced Mermaid blocks:
+
+```mermaid
+[diagram content]
+```
+
+Supported diagram types:
+- `graph TD` / `graph LR` — component relationships and dependencies
+- `flowchart LR` / `flowchart TD` — data and control flow
+- `sequenceDiagram` — multi-step interactions between components
+
+Guidelines:
+- Label edges with what moves between nodes (data type, action, event name)
+- Use `subgraph` to denote logical boundaries (e.g., "API Layer", "Data Layer")
+- Node shapes: `["text"]` for processes, `[("text")]` for data stores, `{"text"}` for decisions
+- Keep diagrams focused — one concern per diagram, max ~15 nodes before splitting
+- Do not use Mermaid themes or custom styling — keep diagrams portable across renderers

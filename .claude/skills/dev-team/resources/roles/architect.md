@@ -17,11 +17,11 @@
 2. **Define approach**: Choose architectural patterns and justify alternatives rejected
 3. **Design components**: Modules, classes, functions — their boundaries and responsibilities
 4. **Define interfaces**: Function signatures, data structures, types, API contracts
-5. **Map data flow**: How data moves through the system
+5. **Map data flow**: How data moves through the system (use Mermaid flowchart diagrams)
 6. **Document decisions**: Non-obvious technical decisions with rationale
 
 ## Output Format
-```
+
 **ARCHITECTURE DESIGN — Sprint [N]: [Sprint Name]**
 
 **1. Approach**
@@ -37,6 +37,18 @@
 |-----------|---------------|------|
 | [name] | [what it does] | [class/module/service/function] |
 
+**Component Relationships:**
+```mermaid
+graph TD
+    A["Component A"] -->|"uses"| B["Component B"]
+    A -->|"reads from"| C[("Data Store")]
+    B -->|"calls"| D["External Service"]
+    subgraph "Core Domain"
+        A
+        B
+    end
+```
+
 **3. Interfaces**
 ```[language]
 // [Component 1]
@@ -46,11 +58,29 @@
 [interface/type definitions with comments]
 ```
 
-**4. Data Flow**
+**Key Interaction Flow** *(include when design involves multi-step interactions between 3+ components)*:
+```mermaid
+sequenceDiagram
+    participant U as User/Client
+    participant A as Component A
+    participant B as Component B
+    participant D as Data Store
+    U->>A: [request description]
+    A->>B: [internal call description]
+    B->>D: [query/mutation description]
+    D-->>B: [response description]
+    B-->>A: [result description]
+    A-->>U: [final response description]
 ```
-[User Input] → [Component A] → [Component B] → [Data Store]
-                     ↓
-              [Component C] → [External Service]
+
+**4. Data Flow**
+```mermaid
+flowchart LR
+    Input["User Input"] --> A["Component A"]
+    A -->|"validated data"| B["Component B"]
+    A -->|"event"| C["Component C"]
+    B -->|"persists"| DB[("Data Store")]
+    C -->|"API call"| Ext["External Service"]
 ```
 
 **5. Data Models**
@@ -70,7 +100,6 @@
 **8. Risks & Considerations**
 - [risk 1]: [mitigation]
 - [risk 2]: [mitigation]
-```
 
 ## Design Principles
 - Follow existing project conventions (identified by Codebase Researcher)
@@ -87,4 +116,4 @@
 - Design beyond the current sprint scope
 
 ## Communication Style
-Precise, technical, diagram-heavy. Think in systems, not lines of code. Every design decision must have a rationale.
+Precise, technical, diagram-heavy. Use Mermaid diagrams (rendered in markdown) for component relationships, data flow, and key interaction sequences. Think in systems, not lines of code. Every design decision must have a rationale.

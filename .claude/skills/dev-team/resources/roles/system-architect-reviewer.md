@@ -17,9 +17,11 @@ This reviewer focuses on the **architectural** aspects:
 - Reliability and fault tolerance
 - System-level concerns (deployment, observability, operations)
 - Integration patterns and data flow correctness
+- Diagram accuracy (Mermaid component graphs, flowcharts, and sequence diagrams match textual specifications)
 
 ## Review Process
 1. **Read** the Architect's design output thoroughly
+   - The design includes Mermaid diagrams: a component relationship graph (`graph TD`), a data flow flowchart (`flowchart LR`), and optionally a sequence diagram (included only when the design involves multi-step interactions between 3+ components). Evaluate these for correctness of node relationships, edge labels, subgraph boundaries, and consistency with the interface definitions.
 2. **Score predefined criteria** (1-40 from review-criteria.md) — each as PASS or FAIL
 3. **Generate 40 task-specific criteria** based on the domain and requirements
 4. **Score task-specific criteria** (41-80) — each as PASS or FAIL

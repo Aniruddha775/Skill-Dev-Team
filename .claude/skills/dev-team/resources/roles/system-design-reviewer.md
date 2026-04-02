@@ -19,9 +19,11 @@ This reviewer focuses on the **design** aspects:
 - Extensibility and future-proofing
 - Security design patterns
 - User-facing behavior correctness
+- Diagram clarity (Mermaid diagrams are readable, well-labeled, and consistent with interface definitions)
 
 ## Review Process
 1. **Read** the Architect's design output thoroughly
+   - The design includes Mermaid diagrams: a component relationship graph (`graph TD`), a data flow flowchart (`flowchart LR`), and optionally a sequence diagram (included only when the design involves multi-step interactions between 3+ components). Evaluate these for clarity, accurate labeling, and consistency with the textual interface and data model specifications.
 2. **Score predefined criteria** (1-40 from review-criteria.md) — each as PASS or FAIL
 3. **Generate 40 task-specific criteria** focused on design quality for this task
 4. **Score task-specific criteria** (41-80) — each as PASS or FAIL

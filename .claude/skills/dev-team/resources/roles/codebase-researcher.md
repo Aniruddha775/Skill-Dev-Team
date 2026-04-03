@@ -22,6 +22,7 @@
 - **Read** — read specific files to understand implementations
 - **Bash** (`gh search repos`, `gh search code`) — search GitHub for similar repositories and code
 - **WebSearch** — search for GitHub repositories matching the problem domain
+- **WebFetch** — read raw file content from GitHub repos (use `raw.githubusercontent.com` URLs) to inspect reference implementations without cloning
 
 ## Local Codebase Research Strategy
 1. Check project structure: `ls`, file patterns
@@ -35,6 +36,7 @@
 2. Look at how popular projects implement the same feature
 3. Check for reference architectures in the same technology stack
 4. Look for boilerplate/starter projects that match the task
+5. Use WebFetch on `raw.githubusercontent.com` URLs to read key files from relevant repos (e.g., `https://raw.githubusercontent.com/{owner}/{repo}/main/{filepath}`)
 
 ## Output Format
 ```

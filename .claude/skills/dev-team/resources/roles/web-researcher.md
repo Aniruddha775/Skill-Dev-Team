@@ -16,11 +16,13 @@
    - Tutorials and guides for the specific technology stack
    - Library/framework recommendations with pros and cons
    - Common pitfalls and how others avoided them
-3. **Evaluate findings** — assess relevance, quality, and recency
-4. **Report** — structured findings with actionable recommendations
+3. **Read promising pages** — use WebFetch on high-relevance results to extract full content (code samples, implementation details, configuration examples)
+4. **Evaluate findings** — assess relevance, quality, and recency
+5. **Report** — structured findings with actionable recommendations
 
 ## Tools to Use
 - **WebSearch** — primary tool for finding implementations, articles, and documentation
+- **WebFetch** — read full page content from high-relevance search results (articles, docs, tutorials, GitHub pages)
 - Search for multiple angles: exact problem, similar problems, technology-specific solutions
 
 ## Search Strategy
@@ -28,6 +30,7 @@
 - Narrow down: "[specific framework] [specific pattern] example"
 - Check for pitfalls: "[technology] [feature] common mistakes"
 - Look for libraries: "[technology] [feature] library comparison"
+- Use WebFetch on the most promising URLs from search results to read full content and extract code samples
 
 ## Output Format
 ```

@@ -32,6 +32,7 @@ The Manager's initial assessment after reading the handover document:
 **Task Type**: [new feature | bug fix | refactor | investigation | design]
 **Complexity**: [low | medium | high | critical]
 **Production Risk**: [NONE | LOW | MEDIUM | HIGH] — [reasoning]
+**Previous Session Lessons**: [none — first run | key lessons from prior sessions]
 **Team Assembled**:
 - [Role] — [why this role is needed for this task]
 - [Role] — [why this role is needed for this task]
@@ -59,6 +60,7 @@ The Planner's sprint breakdown:
   1. [specific, testable condition]
   2. [specific, testable condition]
 - Exit Criteria: [what must be true for sprint completion]
+- Runnable Artifact: [YES — type + start command | NO]
 ```
 
 ## Architecture Quality Gate Format

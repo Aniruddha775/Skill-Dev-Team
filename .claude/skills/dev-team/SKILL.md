@@ -58,9 +58,16 @@ Before executing Phase 1, check for an existing session state:
 1. Use Glob to check if `.dev-team/session-state.md` exists in the project root
 2. If it exists, Read it and present the RESUME PROMPT (see protocols.md) to the user
 3. If user says "resume" → skip to the recorded Current Position (skip all COMPLETED phases/sub-phases; re-execute any IN_PROGRESS sub-phase from its start; re-read files listed in Files Modified for context)
-4. If user says "restart" → delete the state file and `.dev-team/` directory, proceed normally
+4. If user says "restart" → delete the state file (but **preserve `.dev-team/lessons-learned.md`**), proceed normally
 5. If user says "status" → display full state file, then ask resume/restart
 6. If no state file exists → proceed normally
+
+### On Startup: Load Lessons
+After the resume check, check for existing lessons from previous sessions:
+1. Use Glob to check if `.dev-team/lessons-learned.md` exists
+2. If it exists, Read it and pass the lessons to the Manager for Phase 1 intake
+3. The Manager incorporates relevant lessons into the task assessment and flags them at Checkpoint 1
+4. If no lessons file exists → proceed normally (first run in this project)
 
 ### State File
 Location: `.dev-team/session-state.md` (project root, NOT inside `.claude/skills/`).
@@ -101,6 +108,66 @@ At each compaction point:
 | Between sprints | After CP3 approval | Previous sprint's implementation details are in the codebase and state file; next sprint needs room |
 
 Compaction is skipped if context usage is low (single sprint, small task) or if this is the final sprint transitioning to Phase 4.
+
+## SESSION LEARNING
+
+The dev-team accumulates lessons across sessions in the same project. This prevents starting from zero on every run.
+
+### Lessons File
+Location: `.dev-team/lessons-learned.md` (project root, alongside session state).
+- Created at the end of the first completed session (Phase 4)
+- Appended to on every subsequent completed session
+- **Never deleted on restart** — lessons persist even when the session state is wiped
+
+### What to Capture (Phase 4)
+After completing delivery, the Manager extracts lessons in these categories:
+
+| Category | What to Record | Example |
+|---|---|---|
+| **Quality gate patterns** | Which criteria tend to fail, how many attempts needed | "Security criteria fail on first attempt — this project needs extra attention on input validation" |
+| **Project conventions** | Patterns, naming, architecture choices discovered during the session | "Project uses barrel exports, custom hook pattern for data fetching" |
+| **Testing insights** | What test types were most useful, what caught bugs | "Integration tests caught 80% of bugs; edge case tests found the remaining 20%" |
+| **Debug patterns** | Common bug types, root causes | "Off-by-one errors in pagination logic — two sprints hit this" |
+| **Research findings** | Key libraries, patterns, or decisions that should carry forward | "Using zod for validation — all new endpoints should follow this pattern" |
+| **What worked** | Approaches that went smoothly | "Breaking auth into its own sprint prevented downstream blockers" |
+| **What didn't work** | Approaches that caused rework | "Attempting to parallelize database migrations caused conflicts" |
+
+### Lessons File Format
+```
+# Dev-Team Lessons Learned — [Project Name]
+
+## Session: [date] — [task summary]
+
+**Quality Gate Patterns:**
+- [lesson]
+
+**Project Conventions:**
+- [lesson]
+
+**Testing Insights:**
+- [lesson]
+
+**Debug Patterns:**
+- [lesson]
+
+**What Worked:**
+- [lesson]
+
+**What Didn't Work:**
+- [lesson]
+
+---
+(previous sessions below)
+```
+
+### How Lessons Are Used (Phase 1)
+When loaded at startup, the Manager:
+1. Reviews lessons from all previous sessions
+2. Flags relevant lessons at Checkpoint 1 (e.g., "Previous sessions show this project's quality gate tends to fail on security criteria")
+3. Passes relevant lessons to the Planner for sprint planning
+4. Passes relevant lessons to the Tester for test strategy
+
+Lessons inform but never override the user's handover document.
 
 ---
 
@@ -266,10 +333,22 @@ Adopt the **Tester** role (Jordan Kim).
 - Classify each failure as CRITICAL or NON-CRITICAL
 - Produce the test report
 
-**If all tests pass:** proceed to Checkpoint 3.
+**If all tests pass:** proceed to Live App Testing (3f.5).
 **If tests fail:** proceed to Debugging Loop (3g).
 
 **State:** Update session state — 3f = COMPLETED, record test pass/fail counts.
+
+#### 3f.5: Live App Testing (if applicable)
+Remain in **Tester** role (Jordan Kim).
+- If the sprint produces a runnable artifact (app, API, CLI, agent): start the app, test key flows, check for runtime errors
+- If the sprint produces a library, package, or refactor: **SKIP** this step
+- The Planner's sprint plan indicates whether live app testing applies (see `Runnable Artifact` field)
+- Report results in the test report
+
+**If live app testing passes (or is SKIPPED):** proceed to Checkpoint 3.
+**If live app testing fails:** proceed to Debugging Loop (3g). Failures count toward the 3-cycle debug limit.
+
+**State:** Update session state — 3f.5 = COMPLETED, record live app test status.
 
 #### 3g: Debugging Loop (if needed)
 Adopt the **Debugger** role (Casey Morgan).
@@ -331,6 +410,7 @@ After ALL sprints complete, adopt the **Manager** role (Alex Rivera) one last ti
    - Test results across all sprints
    - Architecture decisions made
    - Any known limitations or future considerations
+5. **Extract lessons learned** — append to `.dev-team/lessons-learned.md` (see Session Learning section above)
 
 **Deliver the final result to the user.**
 **State:** Update session state — Phase 4 = COMPLETED, Status = COMPLETED.

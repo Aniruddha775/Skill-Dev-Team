@@ -47,6 +47,7 @@
 - **3e Code Review**: PENDING
 - **3e.5 Code Quality Gate**: PENDING (Attempt: 0, Scores: —)
 - **3f Testing**: PENDING (Passed: —, Failed: —)
+- **3f.5 Live App Testing**: PENDING | SKIPPED
 - **3g Debug Loop**: NOT_NEEDED (Cycle: 0)
 - **3h Checkpoint 3**: PENDING
 - **User Decision**: —

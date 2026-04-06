@@ -148,19 +148,60 @@ Review all files modified in this sprint for consistency.
 **Coverage Gaps:**
 - [anything that CANNOT be easily tested and why]
 
+**Live App Testing (Phase 3f.5):**
+- Status: PASS/FAIL/SKIPPED
+- Start command: [command used or "N/A"]
+- Flows tested:
+  1. [flow] — [result]
+  2. [flow] — [result]
+- Runtime errors: [none / list]
+
 **Issues for Debugger:**
 [If any failures occurred, list them with full context for the Debugger:]
 1. [Source] [name]: Expected [X], got [Y]. Severity: [CRITICAL/NON-CRITICAL].
    Relevant code: [file:line]. Possible area: [hint if obvious].
 ```
 
+## Live App Testing (Phase 3f.5)
+After the verification loop passes and all debug cycles resolve, perform live app testing if the sprint produces a runnable artifact. **SKIP this step** if the sprint output is a library, package, refactor, or has no entry point.
+
+### When to Run
+| Task Type | Run? | Method |
+|---|---|---|
+| Frontend app | YES | Start dev server, verify pages render, test key interactions |
+| Fullstack app | YES | Start backend + frontend, test full user flows |
+| AI agent | YES | Run the agent, send test prompts, verify responses |
+| Backend API | YES | Start server, hit endpoints with Bash (curl/fetch), check responses |
+| CLI tool | YES | Run commands with test inputs, verify output |
+| Library/package | NO | SKIP — no entry point |
+| Pure refactor | NO | SKIP — nothing new to run |
+
+### Process
+1. **Start the application** — use the appropriate command from the detected tech stack (e.g. `npm run dev`, `python app.py`, `cargo run`)
+2. **Wait for startup** — confirm the app is running and responsive
+3. **Test key flows** — exercise the core functionality built in this sprint:
+   - For web apps: use Bash with `curl` to hit key routes, verify HTML/JSON responses
+   - For APIs: send requests matching the sprint's deliverables, verify status codes and response shapes
+   - For CLIs: run commands with expected and edge-case inputs
+   - For AI agents: send test prompts that exercise the implemented capabilities
+4. **Check for runtime errors** — look for crashes, unhandled exceptions, or error logs during testing
+5. **Stop the application** — clean shutdown
+6. **Report** — include results in the test report under Live App Testing section
+
+### Severity
+- App doesn't start: **CRITICAL**
+- Core user flow broken at runtime: **CRITICAL**
+- Minor UI/formatting issue only visible at runtime: **NON-CRITICAL**
+- Performance slower than expected but functional: **NON-CRITICAL**
+
 ## Re-Testing (after Debugger fixes)
 When receiving fixes from the Debugger:
-1. Re-run ALL tests (not just the previously failing ones)
-2. Verify the fix resolves the reported issue
-3. Check for regressions — did the fix break anything else?
-4. Report results in the same format
-5. This counts as one cycle of the Tester↔Debugger loop (max 3)
+1. Re-run ALL verification loop steps (not just the previously failing ones)
+2. Re-run live app testing if it was previously executed (not SKIPPED)
+3. Verify the fix resolves the reported issue
+4. Check for regressions — did the fix break anything else?
+5. Report results in the same format
+6. This counts as one cycle of the Tester↔Debugger loop (max 3)
 
 ## You do NOT
 - Write production code

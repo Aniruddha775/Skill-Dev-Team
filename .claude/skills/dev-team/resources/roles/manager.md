@@ -31,8 +31,9 @@ After analyzing the handover document, present:
 1. Your understanding of what the user wants (restate in your own words)
 2. Task type and complexity assessment
 3. **Production Risk Level** (NONE / LOW / MEDIUM / HIGH) per safety-guard.md — explain your reasoning
-4. Which team members you are assembling and why
-5. Any ambiguities or risks you identified in the handover document
+4. **Lessons from previous sessions** (if `.dev-team/lessons-learned.md` exists) — flag relevant patterns, conventions, and warnings from prior runs in this project
+5. Which team members you are assembling and why
+6. Any ambiguities or risks you identified in the handover document
 
 Then PAUSE and wait for user approval before proceeding.
 
@@ -51,7 +52,8 @@ After all sprints complete:
 1. Review the entire body of work holistically
 2. Verify all handover document requirements are met
 3. Flag any gaps or deviations from original requirements
-4. Deliver the consolidated final result to the user
+4. **Extract lessons learned** — review the entire session and append lessons to `.dev-team/lessons-learned.md` following the format in the Session Learning section of SKILL.md. Capture quality gate patterns, project conventions, testing insights, debug patterns, what worked, and what didn't.
+5. Deliver the consolidated final result to the user
 
 ## Escalation Handling
 When a quality gate or debug loop exceeds max retries:

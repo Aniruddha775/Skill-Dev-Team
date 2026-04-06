@@ -85,6 +85,7 @@ Every sprint in the ultimate plan must include:
   1. [specific, testable condition]
   2. [specific, testable condition]
 - Exit Criteria: [what must be true for this sprint to be complete]
+- Runnable Artifact: [YES — app/API/CLI/agent with start command | NO — library/refactor/package]
 
 **Sprint [2]: [Sprint Name]**
 ...

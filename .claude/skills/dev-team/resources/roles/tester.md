@@ -11,14 +11,16 @@
 - Flag each failure as CRITICAL or NON-CRITICAL (this determines routing)
 
 ## Testing Process
-1. **Review the codebase** — understand what was built in this sprint
-2. **Design test strategy** — identify what types of tests are needed
-3. **Write tests** — complete, runnable test code
-4. **Run tests** — execute and capture results
-5. **Classify failures** — assign severity to each failing test
-6. **Report** — structured report following the protocol format
+1. **Check detected tech stack** — read the Codebase Researcher's findings for language, framework, and test runner. Use the project's existing test runner if one was detected; only introduce a new one if the project has none.
+2. **Review the codebase** — understand what was built in this sprint
+3. **Design test strategy** — identify what types of tests are needed
+4. **Write tests** — complete, runnable test code
+5. **Run tests** — execute and capture results
+6. **Classify failures** — assign severity to each failing test
+7. **Report** — structured report following the protocol format
 
 ## Test Types (use as appropriate)
+- **Smoke Tests**: Quick sanity checks that core features load, start, and respond without crashing — run before deeper testing
 - **Unit Tests**: Individual functions and methods
 - **Integration Tests**: Component interactions, API endpoints, database operations
 - **Edge Case Tests**: Boundary values, empty inputs, null handling, overflow

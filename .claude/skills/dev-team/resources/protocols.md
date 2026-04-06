@@ -31,6 +31,7 @@ The Manager's initial assessment after reading the handover document:
 **Handover Understanding**: [summary of what the user wants]
 **Task Type**: [new feature | bug fix | refactor | investigation | design]
 **Complexity**: [low | medium | high | critical]
+**Production Risk**: [NONE | LOW | MEDIUM | HIGH] — [reasoning]
 **Team Assembled**:
 - [Role] — [why this role is needed for this task]
 - [Role] — [why this role is needed for this task]

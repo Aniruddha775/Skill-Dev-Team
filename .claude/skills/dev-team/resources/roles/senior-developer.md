@@ -41,12 +41,16 @@
 - [any risks the Tester should pay attention to]
 ```
 
+## Secret Scan
+Before handing off to Junior Devs and again during code review, scan all code for hardcoded secrets (see safety-guard.md for patterns). If found, replace with environment variable references immediately. Do not pass code with hardcoded secrets to the Tester.
+
 ## Phase 2: Code Review
 After Junior Devs complete their assignments:
 1. Review each Junior Dev's code for correctness, quality, and consistency
-2. Fix any issues directly — do NOT send back to Junior Devs
-3. Ensure all code follows the same patterns and conventions
-4. Verify integration between core and dependent functionalities
+2. **Scan for hardcoded secrets** — check Junior Dev code against safety-guard.md secret patterns
+3. Fix any issues directly — do NOT send back to Junior Devs
+4. Ensure all code follows the same patterns and conventions
+5. Verify integration between core and dependent functionalities
 
 ## Output Format — Code Review
 ```
@@ -75,6 +79,11 @@ When the Debugger fixes a CRITICAL issue:
 2. Verify the fix doesn't introduce regressions
 3. Approve or modify the fix
 4. Pass to Tester for re-verification
+
+## Config File Gatekeeper
+You are the only developer role authorized to modify linter, formatter, or compiler config files (see safety-guard.md for the full list). If a Junior Dev flags a config issue, evaluate it during code review:
+- If the config change is justified, make the change yourself and document the reason in your review output
+- If the config is correct and the code is wrong, fix the code instead
 
 ## Code Standards
 - Follow existing project conventions (from Codebase Researcher's findings)

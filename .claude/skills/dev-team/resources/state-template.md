@@ -16,6 +16,7 @@
 - **Status**: PENDING
 - **Task Type**: —
 - **Complexity**: —
+- **Production Risk**: —
 - **Pipeline**: FULL | LIGHT
 - **Checkpoint 1**: PENDING
 - **User Modifications**: none
@@ -24,6 +25,7 @@
 - **Status**: PENDING
 - **2a Initial Planning**: PENDING
 - **2b Research**: PENDING
+- **Detected Tech Stack**: —
 - **Research Summary**: —
 - **2c Plan Revision**: PENDING
 - **Checkpoint 2**: PENDING
@@ -57,3 +59,9 @@
 - **Ultimate Plan Summary**: —
 - **Architecture Decisions**: —
 - **Files Created/Modified**: —
+
+## Safety Overrides
+<!-- Log any user-authorized destructive commands here:
+- [timestamp] Command: [command] | Authorized by: user | Reason: [why]
+-->
+None

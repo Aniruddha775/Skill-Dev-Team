@@ -15,6 +15,7 @@ Load and internalize the following role definitions and shared resources:
 **Shared Resources:**
 - @resources/protocols.md — formatting conventions, checkpoint formats, quality gate formats
 - @resources/review-criteria.md — 40 predefined architecture/design review criteria
+- @resources/safety-guard.md — destructive command blocking, production risk assessment
 
 **Team Members:**
 - @resources/roles/manager.md — Alex Rivera, Engineering Manager
@@ -72,6 +73,35 @@ Created at the start of Phase 1. Updated at every phase/sub-phase boundary as in
 - Never skip a checkpoint that hasn't been APPROVED
 - Preserve retry counters (quality gate attempts, debug cycles) across sessions
 
+## CONTEXT MANAGEMENT
+
+Large tasks with multiple sprints can exhaust the context window, degrading output quality. To prevent this, the pipeline includes **compaction points** at natural boundaries where context can be safely compressed.
+
+### Compaction Protocol
+At each compaction point:
+
+1. **Verify state file is current** — all completed phases/sub-phases must be recorded in `.dev-team/session-state.md`
+2. **Compact context** — summarize all prior conversation into a focused brief:
+   - Task summary (from handover document)
+   - Current position in the pipeline
+   - Key decisions made so far
+   - What the next phase/sprint requires
+3. **Re-read after compaction:**
+   - `.dev-team/session-state.md` (full state)
+   - Key artifacts listed in the state file (architecture docs, modified files)
+   - The upcoming sprint's plan from the Ultimate Plan
+4. **Do NOT re-read** completed sprint discussions, resolved debug loops, or approved checkpoint conversations — these are captured in the state file
+
+### Compaction Points
+| When | Trigger | Why |
+|---|---|---|
+| Phase 2 → Phase 3 | After CP2 approval | Research & planning context is captured in the Ultimate Plan; sprint execution needs fresh context |
+| Between sprints | After CP3 approval | Previous sprint's implementation details are in the codebase and state file; next sprint needs room |
+
+Compaction is skipped if context usage is low (single sprint, small task) or if this is the final sprint transitioning to Phase 4.
+
+---
+
 ## EXECUTION PROTOCOL
 
 Follow this pipeline exactly. Do NOT skip phases. Do NOT combine roles. Each role speaks within their section using the header format from protocols.md.
@@ -91,11 +121,12 @@ Adopt the **Manager** role (Alex Rivera).
 4. Assess complexity (low / medium / high / critical)
 5. List which team members you are assembling and why
 6. Identify any ambiguities or risks in the handover document
-7. Select pipeline: **FULL** (new feature / refactor / complex) or **LIGHT** (bug fix / simple task). Present your choice and reasoning at Checkpoint 1.
+7. Assess **Production Risk Level** (NONE / LOW / MEDIUM / HIGH) per safety-guard.md
+8. Select pipeline: **FULL** (new feature / refactor / complex) or **LIGHT** (bug fix / simple task). Present your choice and reasoning at Checkpoint 1.
 
 **Then present CHECKPOINT 1** using the checkpoint format from protocols.md.
 **STOP and wait for user approval before proceeding.**
-**State:** Update session state — Phase 1 = COMPLETED, Checkpoint 1 = APPROVED, record task type and complexity.
+**State:** Update session state — Phase 1 = COMPLETED, Checkpoint 1 = APPROVED, record task type, complexity, and production risk level.
 
 If the user corrects your understanding, revise and re-present Checkpoint 1.
 
@@ -142,6 +173,9 @@ Return to **Planner** role (Dana Park).
 **State:** Update session state — Phase 2 = COMPLETED, Checkpoint 2 = APPROVED, record sprint names and ultimate plan summary.
 
 If the user modifies the plan, incorporate changes and re-present Checkpoint 2.
+
+**COMPACTION POINT — Phase 2 → Phase 3 transition:**
+Before starting Phase 3, compact context to free up space for sprint execution. Follow the compaction protocol in the Context Management section above.
 
 ---
 
@@ -258,6 +292,9 @@ User options:
 - **"stop"** → halt the pipeline, deliver what's completed so far
 - **"approve all remaining"** → skip Checkpoint 3 for remaining sprints (auto-approve)
 
+**COMPACTION POINT — Between sprints:**
+After CP3 approval and before starting the next sprint, compact context. Follow the compaction protocol in the Context Management section above. Skip if this is the final sprint (Phase 4 is lightweight).
+
 ---
 
 ### PHASE 4: FINAL DELIVERY
@@ -292,3 +329,5 @@ After ALL sprints complete, adopt the **Manager** role (Alex Rivera) one last ti
 9. **Use the exact formatting** from protocols.md for all headers, handoffs, reports, and checkpoints.
 10. **Junior Devs run in parallel.** Spawn one per assignment (1-6). Do not execute them sequentially. Do not pad with artificial assignments.
 11. **Persist session state.** Update `.dev-team/session-state.md` at every **State:** marker. On startup, check for existing state and offer resumption.
+12. **Safety guard is always active.** All roles must follow safety-guard.md. Never execute destructive commands — escalate to the user. No role can override the safety guard.
+13. **Compact at boundaries, not mid-task.** Follow the compaction protocol at designated compaction points. Never compact in the middle of a phase or sub-phase.

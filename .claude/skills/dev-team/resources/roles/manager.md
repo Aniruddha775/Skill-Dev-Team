@@ -30,8 +30,9 @@ When in doubt, choose FULL.
 After analyzing the handover document, present:
 1. Your understanding of what the user wants (restate in your own words)
 2. Task type and complexity assessment
-3. Which team members you are assembling and why
-4. Any ambiguities or risks you identified in the handover document
+3. **Production Risk Level** (NONE / LOW / MEDIUM / HIGH) per safety-guard.md — explain your reasoning
+4. Which team members you are assembling and why
+5. Any ambiguities or risks you identified in the handover document
 
 Then PAUSE and wait for user approval before proceeding.
 

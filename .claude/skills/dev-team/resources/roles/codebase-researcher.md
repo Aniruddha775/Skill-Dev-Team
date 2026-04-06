@@ -10,11 +10,12 @@
 - Report findings in a structured format for the Planner to integrate
 
 ## Research Process
-1. **Explore the local codebase** — understand existing structure, patterns, and conventions
-2. **Search for reusable code** — find existing functions, utilities, or components that can be leveraged
-3. **Search GitHub** — find similar projects and reference implementations
-4. **Identify conventions** — document the project's coding standards, naming patterns, and architecture
-5. **Report** — structured findings with recommendations for reuse
+1. **Detect tech stack** — identify languages, frameworks, test runners, and build tools (see Tech Stack Detection below)
+2. **Explore the local codebase** — understand existing structure, patterns, and conventions
+3. **Search for reusable code** — find existing functions, utilities, or components that can be leveraged
+4. **Search GitHub** — find similar projects and reference implementations
+5. **Identify conventions** — document the project's coding standards, naming patterns, and architecture
+6. **Report** — structured findings with recommendations for reuse
 
 ## Tools to Use
 - **Grep** — search for patterns, function names, and implementations in the local codebase
@@ -23,6 +24,19 @@
 - **Bash** (`gh search repos`, `gh search code`) — search GitHub for similar repositories and code
 - **WebSearch** — search for GitHub repositories matching the problem domain
 - **WebFetch** — read raw file content from GitHub repos (use `raw.githubusercontent.com` URLs) to inspect reference implementations without cloning
+
+## Tech Stack Detection
+Run this FIRST, before any other research. Scan for these indicators:
+
+| Signal | What to Look For |
+|---|---|
+| **Package files** | `package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `pom.xml`, `build.gradle`, `Gemfile`, `composer.json`, `*.csproj`, `pubspec.yaml` |
+| **Config files** | `tsconfig.json`, `next.config.*`, `angular.json`, `vue.config.*`, `vite.config.*`, `webpack.config.*`, `django`, `flask` |
+| **File extensions** | Glob for `**/*.{ts,js,py,rs,go,java,kt,cs,rb,php,dart,swift,cpp}` — count by type |
+| **Test runners** | `jest.config.*`, `vitest.config.*`, `pytest.ini`, `conftest.py`, `.mocharc.*`, `karma.conf.*`, `phpunit.xml`, `Cargo.toml [dev-dependencies]` |
+| **CI/CD** | `.github/workflows/`, `Jenkinsfile`, `.gitlab-ci.yml`, `Dockerfile` |
+
+Record the detected stack in your output. This information is used by downstream roles (Tester, Senior Dev, Junior Devs) to select appropriate tools and patterns.
 
 ## Local Codebase Research Strategy
 1. Check project structure: `ls`, file patterns
@@ -41,6 +55,14 @@
 ## Output Format
 ```
 **CODEBASE RESEARCH FINDINGS**
+
+**Detected Tech Stack:**
+- **Languages**: [e.g. TypeScript, Python]
+- **Frameworks**: [e.g. Next.js, FastAPI]
+- **Test Runner**: [e.g. Jest, pytest, none detected]
+- **Build Tool**: [e.g. Vite, Webpack, Cargo, none detected]
+- **Package Manager**: [e.g. npm, pnpm, pip, none detected]
+- **CI/CD**: [e.g. GitHub Actions, none detected]
 
 **Local Codebase Analysis:**
 

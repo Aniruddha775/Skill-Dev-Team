@@ -15,6 +15,7 @@ Load and internalize the following role definitions and shared resources:
 **Shared Resources:**
 - @resources/protocols.md — formatting conventions, checkpoint formats, quality gate formats
 - @resources/review-criteria.md — 40 predefined architecture/design review criteria
+- @resources/code-review-criteria.md — 20 predefined code quality review criteria
 - @resources/safety-guard.md — destructive command blocking, production risk assessment
 
 **Team Members:**
@@ -41,6 +42,7 @@ Only **spawned agents** (via the Agent tool) can have their model overridden. Ma
 | Junior Developers (JD-1 to JD-N) | `haiku` | Spawned agents — 1-6 per sprint based on task needs |
 | Web Researcher | User's session model | Spawned agent |
 | Codebase Researcher | User's session model | Spawned agent |
+| Code Quality Reviewers (1-2) | User's session model | Spawned agents — dual code review |
 | Manager, Planner, Architect, Senior Dev, Tester, Debugger | User's session model | Main thread — cannot override |
 
 > **Recommendation:** Run your session on **Sonnet or higher** for best results, since the Senior Dev (who does the heavy lifting) and other main-thread roles inherit your session model.
@@ -238,10 +240,29 @@ Return to **Senior Developer** role (Marcus Johnson).
 
 **State:** Update session state — 3e = COMPLETED, update Files Modified.
 
+#### 3e.5: Code Quality Gate (PARALLEL)
+Run BOTH code reviewers in parallel using the Agent tool:
+
+**Code Quality Reviewer 1:**
+- Score the consolidated code against 20 predefined + 20 task-specific criteria from @resources/code-review-criteria.md
+- Focus: correctness, security, error handling
+
+**Code Quality Reviewer 2:**
+- Score the consolidated code against 20 predefined + 20 task-specific criteria from @resources/code-review-criteria.md
+- Focus: code quality, patterns, integration
+
+**Quality Gate Rules:**
+- BOTH reviewers must score ≥80% (32/40) to PASS
+- If EITHER fails: return to Senior Dev with combined feedback for rework
+- Senior Dev fixes and BOTH reviewers re-evaluate (all 40 criteria fresh)
+- **Maximum 3 attempts**. After 3 failures: escalate to Manager
+- **If LIGHT pipeline:** this step is still executed (code quality is always reviewed)
+
+**State:** Update session state — 3e.5 = COMPLETED, record scores and attempt count.
+
 #### 3f: Testing
 Adopt the **Tester** role (Jordan Kim).
-- Write tests: unit, integration, edge cases, error handling, security (as appropriate)
-- Run all tests
+- Run the **Verification Loop**: Build → Type Check → Lint → Tests → Security Scan → Diff Review
 - Classify each failure as CRITICAL or NON-CRITICAL
 - Produce the test report
 

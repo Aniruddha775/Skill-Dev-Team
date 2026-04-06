@@ -11,11 +11,9 @@
 
 ## Research Process
 1. **Detect tech stack** — identify languages, frameworks, test runners, and build tools (see Tech Stack Detection below)
-2. **Explore the local codebase** — understand existing structure, patterns, and conventions
-3. **Search for reusable code** — find existing functions, utilities, or components that can be leveraged
-4. **Search GitHub** — find similar projects and reference implementations
-5. **Identify conventions** — document the project's coding standards, naming patterns, and architecture
-6. **Report** — structured findings with recommendations for reuse
+2. **Iterative local codebase research** — explore using progressive refinement cycles with relevance scoring (see Iterative Retrieval below)
+3. **Search GitHub** — find similar projects and reference implementations
+4. **Report** — structured findings with only high/medium relevance items
 
 ## Tools to Use
 - **Grep** — search for patterns, function names, and implementations in the local codebase
@@ -38,12 +36,31 @@ Run this FIRST, before any other research. Scan for these indicators:
 
 Record the detected stack in your output. This information is used by downstream roles (Tester, Senior Dev, Junior Devs) to select appropriate tools and patterns.
 
-## Local Codebase Research Strategy
-1. Check project structure: `ls`, file patterns
-2. Find existing utilities: search for helper functions, shared modules
-3. Identify patterns: how are similar features currently implemented?
-4. Check dependencies: what libraries are already installed?
-5. Review configuration: build tools, linting rules, project conventions
+## Iterative Retrieval
+Research the local codebase using progressive refinement cycles. Do NOT dump everything you find — score it and filter.
+
+### Cycle Process (max 3 cycles)
+1. **Dispatch** — search broadly using Grep, Glob, Read based on task keywords
+2. **Evaluate** — score each finding for relevance (see scoring below)
+3. **Refine** — based on what you found, adjust search terms and narrow focus
+4. **Loop or stop** — stop when you have 3+ high-relevance files without critical gaps
+
+### Relevance Scoring
+Score every finding on a 0-1 scale:
+
+| Score | Level | Action |
+|---|---|---|
+| **0.8-1.0** | High | Include in report — directly relevant to the task |
+| **0.5-0.7** | Medium | Include in report — useful context or partial reuse |
+| **0.2-0.4** | Low | Mention briefly or omit — tangentially related |
+| **0.0-0.1** | None | Omit — not relevant |
+
+Only pass **High** and **Medium** findings forward to the Planner. Low and None findings waste downstream context.
+
+### Cycle Strategy
+- **Cycle 1**: Start broad — learn the codebase's terminology, directory conventions, and naming patterns. Check project structure, dependencies, and configuration.
+- **Cycle 2**: Narrow — use learned terminology to find specific implementations, utilities, and reusable patterns.
+- **Cycle 3** (if needed): Targeted — fill gaps identified in cycle 2, search for specific functions or modules still missing.
 
 ## GitHub Research Strategy
 1. Search for repos solving similar problems: `gh search repos "[keywords]"`
@@ -70,15 +87,19 @@ Record the detected stack in your output. This information is used by downstream
 - [overview of directory structure]
 - [key directories and their purpose]
 
-**Existing Patterns Found:**
-| Pattern | Location | Reusable? | Notes |
-|---------|----------|-----------|-------|
-| [pattern] | [file:line] | yes/no | [how to reuse] |
+**Retrieval Summary:**
+- Cycles completed: [1-3]
+- Findings: [X] high, [Y] medium, [Z] low/none (omitted)
 
-**Existing Utilities/Functions:**
-| Function/Module | Location | Purpose | Can Reuse For |
-|----------------|----------|---------|--------------|
-| [name] | [file:line] | [purpose] | [our use case] |
+**High-Relevance Findings (0.8-1.0):**
+| Finding | Location | Relevance | Reuse Recommendation |
+|---------|----------|-----------|---------------------|
+| [pattern/function/module] | [file:line] | [0.X] | [reuse as-is / adapt / reference only] |
+
+**Medium-Relevance Findings (0.5-0.7):**
+| Finding | Location | Relevance | Notes |
+|---------|----------|-----------|-------|
+| [pattern/function/module] | [file:line] | [0.X] | [how it relates to the task] |
 
 **Project Conventions:**
 - Naming: [convention]

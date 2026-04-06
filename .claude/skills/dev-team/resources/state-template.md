@@ -45,6 +45,7 @@
 - **3c Core Implementation**: PENDING
 - **3d Junior Dev Implementation**: PENDING
 - **3e Code Review**: PENDING
+- **3e.5 Code Quality Gate**: PENDING (Attempt: 0, Scores: —)
 - **3f Testing**: PENDING (Passed: —, Failed: —)
 - **3g Debug Loop**: NOT_NEEDED (Cycle: 0)
 - **3h Checkpoint 3**: PENDING

@@ -45,12 +45,20 @@ The Planner's sprint breakdown:
 ```
 **Sprint [N]: [Sprint Name]**
 - Objective: [what this sprint delivers]
+- Context Brief:
+  - Prior sprint outputs needed: [none / file paths]
+  - Key architectural decisions: [none / relevant decisions]
+  - Tech stack: [detected stack]
+  - Relevant research: [findings for this sprint]
 - Deliverables:
   1. [deliverable]
   2. [deliverable]
 - Dependencies: [what must exist before this sprint]
 - Roles Involved: [list]
-- Research Findings Applied: [relevant findings from researchers]
+- Verification Criteria:
+  1. [specific, testable condition]
+  2. [specific, testable condition]
+- Exit Criteria: [what must be true for sprint completion]
 ```
 
 ## Architecture Quality Gate Format
@@ -75,18 +83,49 @@ Each reviewer scores using this format:
 - [specific issue 2 and suggested fix]
 ```
 
+## Code Quality Gate Format
+Each code reviewer scores using this format:
+
+```
+**CODE REVIEW: [Reviewer 1 or 2]**
+**Category Scores:**
+| # | Criteria | Pass/Fail | Notes |
+|---|---------|-----------|-------|
+| 1 | [criteria name] | PASS/FAIL | [brief note] |
+...
+
+**Summary:**
+- Passed: [X]/40
+- Failed: [Y]/40
+- Pass Rate: [Z]%
+- **VERDICT**: PASS (≥80%) / FAIL (<80%)
+
+**Feedback for Senior Dev** (if FAIL):
+- [file:line]: [specific issue and suggested fix]
+- [file:line]: [specific issue and suggested fix]
+```
+
 ## Testing Report Format
 The Tester uses this format for reporting:
 
 ```
 **TEST REPORT — Sprint [N]**
-**Test Summary:**
-| # | Test Name | Type | Status | Severity |
-|---|----------|------|--------|----------|
-| 1 | [name] | unit/integration/e2e | PASS/FAIL | CRITICAL/NON-CRITICAL |
-...
+**Verification Loop:**
+| Step | Status | Details |
+|------|--------|---------|
+| 1. Build | PASS/FAIL/SKIPPED | [brief] |
+| 2. Type Check | PASS/FAIL/SKIPPED | [brief] |
+| 3. Lint | PASS/FAIL/SKIPPED | [brief] |
+| 4. Tests | PASS/FAIL | [X passed, Y failed] |
+| 5. Security Scan | PASS/FAIL | [brief] |
+| 6. Diff Review | PASS/FAIL | [brief] |
 
-**Overall:** [X] passed, [Y] failed ([Z]% pass rate)
+**All Failures:**
+| # | Source | Name | Severity | Details |
+|---|--------|------|----------|---------|
+| 1 | [step] | [name] | CRITICAL/NON-CRITICAL | [brief] |
+
+**Overall:** Verification [X]/6 passed, Tests [X] passed [Y] failed ([Z]%)
 **Critical Failures:** [count]
 **Non-Critical Failures:** [count]
 ```
@@ -101,7 +140,7 @@ Manager presents at each sprint boundary:
 - [x] [deliverable 2] — completed
 **Tests:** [X] passed, [Y] failed, [Z]% pass rate
 **Issues Resolved:** [count] (via Debugger)
-**Quality Gate:** Architecture review passed at [X]%
+**Quality Gates:** Architecture review [X]%, Code review [X]%
 **Next Sprint:** Sprint [N+1] — [brief description]
 
 → Awaiting your approval to proceed.
@@ -151,6 +190,7 @@ When pausing after a sprint completes:
 
 ## Retry/Escalation Rules
 - **Architecture Quality Gate**: Max 3 retries, then escalate to Manager
+- **Code Quality Gate**: Max 3 retries, then escalate to Manager
 - **Tester↔Debugger Loop**: Max 3 cycles, then escalate to Manager
 - **Escalation Format**:
 ```

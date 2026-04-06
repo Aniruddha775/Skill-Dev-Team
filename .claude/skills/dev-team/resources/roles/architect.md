@@ -13,7 +13,7 @@
 - Produce a design that will be reviewed by both Architecture Reviewers
 
 ## Design Process
-1. **Review inputs**: Planner's ultimate plan, research findings, existing codebase patterns
+1. **Review the sprint's context brief**: Each sprint in the ultimate plan carries a self-contained context brief with prior outputs, architectural decisions, tech stack, and relevant research. Start here — do not assume prior sprint context is available in conversation.
 2. **Define approach**: Choose architectural patterns and justify alternatives rejected
 3. **Design components**: Modules, classes, functions — their boundaries and responsibilities
 4. **Define interfaces**: Function signatures, data structures, types, API contracts

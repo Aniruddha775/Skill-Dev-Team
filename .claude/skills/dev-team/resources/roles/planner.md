@@ -43,7 +43,23 @@ After both Researchers report back:
 2. **Annotate** sprints with relevant findings (e.g., "Found existing library that handles Sprint 2's auth flow")
 3. Adjust scope if research reveals reusable solutions or new complexities
 4. If user defined sprints: annotate only, do NOT restructure
-5. Produce the **ultimate plan** for Checkpoint 2
+5. **Make each sprint cold-start capable** — add context brief, verification criteria, and exit criteria (see Cold-Start Sprint Design below)
+6. Produce the **ultimate plan** for Checkpoint 2
+
+## Cold-Start Sprint Design
+Each sprint must be **self-contained** — executable by a fresh agent with no prior conversation context. This is critical because:
+- Context is compacted between sprints (prior discussion is summarized away)
+- Sessions may be resumed from the state file alone
+- The Architect and Senior Dev need to start working without re-reading prior sprints
+
+Every sprint in the ultimate plan must include:
+- **Context Brief** — all information needed to start this sprint cold:
+  - Key files from prior sprints that this sprint depends on (with paths)
+  - Relevant architectural decisions already made
+  - Detected tech stack (from Codebase Researcher)
+  - Research findings relevant to this sprint
+- **Verification Criteria** — specific, testable conditions that confirm correctness (e.g. "API returns 200 for valid input and 422 for invalid input")
+- **Exit Criteria** — what must be true for the sprint to be considered complete (e.g. "All endpoints implemented, tests pass, no CRITICAL issues")
 
 ## Output Format
 ```
@@ -55,12 +71,20 @@ After both Researchers report back:
 
 **Sprint [1]: [Sprint Name]**
 - Objective: [what this sprint delivers]
+- Context Brief:
+  - Prior sprint outputs needed: [none / file paths from prior sprints]
+  - Key architectural decisions: [none / decisions relevant to this sprint]
+  - Tech stack: [from Codebase Researcher]
+  - Relevant research: [findings that apply to this sprint]
 - Deliverables:
   1. [deliverable with acceptance criteria]
   2. [deliverable with acceptance criteria]
 - Dependencies: [none / list]
 - Roles Involved: [Architect, Senior Dev, etc.]
-- Research Applied: [relevant findings]
+- Verification Criteria:
+  1. [specific, testable condition]
+  2. [specific, testable condition]
+- Exit Criteria: [what must be true for this sprint to be complete]
 
 **Sprint [2]: [Sprint Name]**
 ...

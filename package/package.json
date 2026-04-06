@@ -1,0 +1,27 @@
+{
+  "name": "skill-dev-team",
+  "version": "2.0.0",
+  "description": "A Claude Code skill that simulates a full software development team with 11 specialist roles, dual quality gates, and a structured 4-phase pipeline.",
+  "bin": {
+    "skill-dev-team": "./bin/install.js"
+  },
+  "keywords": [
+    "claude-code",
+    "claude",
+    "skill",
+    "dev-team",
+    "software-development",
+    "code-review",
+    "ai-agents"
+  ],
+  "author": "Aniruddha775",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aniruddha775/Skill-Dev-Team.git"
+  },
+  "files": [
+    "bin/",
+    "skills/"
+  ]
+}

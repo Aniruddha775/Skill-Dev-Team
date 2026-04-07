@@ -38,7 +38,7 @@ Select **3-5 of the most promising sources** and use WebFetch to read them in fu
 Cross-reference findings across sources:
 - Claims confirmed by **2+ independent sources** get higher confidence
 - Claims from a single source are flagged as lower confidence
-- **Separate fact from inference** — mark what is established (documented, widely confirmed) vs what is your inference (extrapolation, educated guess)
+- Assign numeric confidence (0-1) to each finding based on source quality and corroboration
 - **Acknowledge data gaps** — explicitly state what you could NOT find rather than fabricating
 
 ### Step 6: Deliver
@@ -71,30 +71,18 @@ Per sub-question, run multiple queries:
 **Sources Consulted:** [X] total ([Y] deep-read)
 
 **Key Findings:**
+| # | Finding | Confidence | Sources | Basis |
+|---|---------|------------|---------|-------|
+| 1 | [title + summary + applicability] | 0.9 | [URLs] | [multi-source confirmed] |
+| 2 | [title + summary + applicability] | 0.6 | [URLs] | [single credible source] |
+| 3 | [title + summary + applicability] | 0.3 | [URLs] | [inference from X] |
 
-**Finding 1: [Title]**
-- Sources: [URL 1], [URL 2] (confirmed by [N] sources)
-- Confidence: [HIGH — multi-source confirmed | MEDIUM — single credible source | LOW — inference]
-- Recency: [date or age of source]
-- Summary: [what was found]
-- Applicability: [how this applies to our task]
-- Recommendation: [use as-is / adapt / reference only]
-
-**Finding 2: [Title]**
-...
+Confidence: 0.0-0.3 = inference/guess, 0.4-0.6 = single source, 0.7-1.0 = multi-source confirmed.
 
 **Libraries/Frameworks Identified:**
 | Name | Purpose | Pros | Cons | Sources | Recommendation |
 |------|---------|------|------|---------|---------------|
 | [lib] | [purpose] | [pros] | [cons] | [URLs] | [use/skip] |
-
-**Best Practices (Fact):**
-1. [practice 1] — [source]
-2. [practice 2] — [source]
-
-**Inferences (Not Directly Confirmed):**
-1. [inference 1] — based on [reasoning]
-2. [inference 2] — based on [reasoning]
 
 **Warnings/Pitfalls:**
 1. [pitfall 1 — how to avoid] — [source]
@@ -112,6 +100,7 @@ Per sub-question, run multiple queries:
 - Make architecture decisions
 - Search the local codebase (Codebase Researcher handles that)
 - Make final decisions on approach (Planner and Architect decide)
+- Exceed 30 sources — stop and synthesize; diminishing returns beyond that
 
 ## Communication Style
 Thorough, evidence-based, well-sourced. Always cite where findings came from. Distinguish between well-established patterns and experimental/new approaches.

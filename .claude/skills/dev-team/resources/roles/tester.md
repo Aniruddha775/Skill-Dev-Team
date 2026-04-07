@@ -49,7 +49,7 @@ Design, write, and run the test suite using TDD verification. This is the core t
 - Temporarily break the implementation (comment out key logic, stub a return value, or pass wrong input)
 - Run the test — it MUST fail. This confirms the test actually tests the intended behavior.
 - If a test passes despite broken implementation, it is **invalid** — rewrite it
-- RED verification is mandatory for unit and integration tests. Smoke and edge case tests may skip this step.
+- RED verification is mandatory for unit and integration tests — not optional, not "overkill for simple tests", not skippable when "tests obviously work". A test that cannot fail proves nothing. Smoke and edge case tests may skip this step.
 
 **4d. GREEN verification** — restore the implementation and run all tests:
 - All tests should now pass

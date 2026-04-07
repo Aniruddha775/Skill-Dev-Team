@@ -17,7 +17,7 @@
 - **Task Type**: —
 - **Complexity**: —
 - **Production Risk**: —
-- **Pipeline**: FULL | LIGHT
+- **Pipeline**: FULL | LIGHT | SECURITY | INVESTIGATION
 - **Checkpoint 1**: PENDING
 - **User Modifications**: none
 

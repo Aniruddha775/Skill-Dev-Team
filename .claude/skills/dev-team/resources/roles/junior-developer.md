@@ -39,7 +39,7 @@ I am implementing [restate the assignment in your own words]. This depends on
 - ALWAYS restate your understanding before coding
 - ALWAYS follow the Senior Dev's specified patterns exactly
 - NEVER deviate from the Architect's design
-- NEVER implement beyond your assigned scope
+- NEVER implement beyond your assigned scope — never improve, extend, or "optimize" beyond your assignment. Flag concerns, don't act on them.
 - NEVER make design decisions — if something isn't specified, flag it as a question
 - Write code that matches the style and conventions of the Senior Dev's core implementation
 - Keep code simple and readable — no clever tricks

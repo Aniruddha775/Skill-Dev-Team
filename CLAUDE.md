@@ -8,12 +8,13 @@ This repository contains the **dev-team** Claude Code skill — a development te
 
 ## Structure
 
-- `.claude/skills/dev-team/SKILL.md` — Master skill definition and execution protocol (4 phases)
-- `.claude/skills/dev-team/resources/protocols.md` — Formatting conventions, checkpoint formats, handoff syntax, severity classification
-- `.claude/skills/dev-team/resources/review-criteria.md` — 40 predefined architecture/design review criteria (7 categories) plus task-specific criteria generation framework
-- `.claude/skills/dev-team/resources/code-review-criteria.md` — 20 predefined code quality review criteria (6 categories) plus task-specific criteria generation framework
-- `.claude/skills/dev-team/resources/roles/` — 11 role definition files, each with persona, responsibilities, tool access, and output format
-- `.claude/skills/dev-team/resources/state-template.md` — Template for session state persistence file
+- `.claude/skills/dev-team/SKILL.md` — Master skill definition and execution protocol (4 phases). Only loads `protocols.md` and `safety-guard.md` upfront; all role files and review criteria are loaded on-demand per-step.
+- `.claude/skills/dev-team/resources/protocols.md` — Formatting conventions, checkpoint formats, handoff syntax, severity classification (always loaded)
+- `.claude/skills/dev-team/resources/safety-guard.md` — Destructive command blocking, production risk assessment (always loaded)
+- `.claude/skills/dev-team/resources/review-criteria.md` — 40 predefined architecture/design review criteria (loaded at step 3b)
+- `.claude/skills/dev-team/resources/code-review-criteria.md` — 18 predefined code quality review criteria (loaded at step 3e.5 Stage B; 2 spec-compliance criteria moved to Senior Dev self-check in Stage A)
+- `.claude/skills/dev-team/resources/state-template.md` — Template for session state persistence file (loaded at Phase 1)
+- `.claude/skills/dev-team/resources/roles/` — 10 role definition files, loaded on-demand per execution step. `architecture-reviewer.md` covers both Structural (Raj Mehta) and Design (Li Wei) lenses in a single file.
 
 ## Execution Pipeline
 
